@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --gold: #ffd700;
+  --gold-dark: #b8860b;
+  --blue-dark: #0a1628;
+  --blue-mid: #1a2d4a;
+  --blue-light: #2d4a6f;
+  --white: #ffffff;
+  --green: #22c55e;
+  --red: #ef4444;
+  --gray: #6b7280;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--blue-dark);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--blue-light);
+  background: var(--blue-mid);
+  color: var(--white);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
