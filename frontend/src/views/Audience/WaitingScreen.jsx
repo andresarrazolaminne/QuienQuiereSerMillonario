@@ -29,18 +29,6 @@ export default function WaitingScreen({ pantalla }) {
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       )}
-      <div style={{
-        position: 'absolute',
-        bottom: 20,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        color: 'var(--gold)',
-        fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-        fontWeight: 700,
-        textShadow: '0 2px 4px rgba(0,0,0,0.8)'
-      }}>
-        ¿Quién quiere ser millonario?
-      </div>
     </div>
   );
 }

@@ -43,12 +43,14 @@ chmod +x scripts/*.sh
 sudo ./scripts/install-service.sh
 ```
 
-### 5. Configurar Nginx (proxy inverso)
+### 5. Configurar Nginx (optimizado para rendimiento)
+
+La config sirve imágenes y frontend directamente desde Nginx (más rápido). Solo API y Socket.io pasan por Node.
 
 ```bash
 sudo cp scripts/nginx.conf.example /etc/nginx/sites-available/millonario
 sudo nano /etc/nginx/sites-available/millonario
-# Ajustar: server_name, proxy_pass (puerto si cambiaste)
+# Ajustar: server_name, puerto, rutas (/var/www/millonario si clonaste en otro sitio)
 sudo ln -s /etc/nginx/sites-available/millonario /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx

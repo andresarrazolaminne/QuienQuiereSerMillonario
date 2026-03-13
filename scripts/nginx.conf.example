@@ -1,16 +1,27 @@
-# Ejemplo de configuración Nginx como proxy inverso para Millonario
-# La app corre como un solo proceso Node (API + frontend). Nginx solo hace proxy.
-# Copiar a /etc/nginx/sites-available/millonario
-# Enlazar: sudo ln -s /etc/nginx/sites-available/millonario /etc/nginx/sites-enabled/
-# Ajustar server_name y puerto (debe coincidir con PORT en backend/.env)
+# Nginx optimizado para Millonario - RENDIMIENTO
+# Archivos estáticos servidos por Nginx (más rápido). Solo API y Socket.io van a Node.
+# Cambiar /var/www/millonario por la ruta donde clonaste el proyecto.
 
 server {
     listen 80;
     server_name millonario.tudominio.com;
 
-    # Todo el tráfico al proceso Node (API + frontend)
-    location / {
-        proxy_pass http://127.0.0.1:3001;   # Cambiar si usas otro puerto en .env
+    client_max_body_size 20M;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript;
+    gzip_min_length 1000;
+
+    # Imágenes/videos - Nginx sirve directo desde disco (muy rápido)
+    location /uploads/ {
+        alias /var/www/millonario/backend/uploads/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # API - proxy a Node
+    location /api {
+        proxy_pass http://127.0.0.1:3001;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -18,11 +29,20 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    # WebSocket
     location /socket.io {
         proxy_pass http://127.0.0.1:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
+    }
+
+    # Frontend - Nginx sirve JS/CSS/HTML directo (muy rápido)
+    location / {
+        root /var/www/millonario/frontend/dist;
+        try_files $uri $uri/ /index.html;
+        expires 7d;
+        add_header Cache-Control "public, must-revalidate";
     }
 }
