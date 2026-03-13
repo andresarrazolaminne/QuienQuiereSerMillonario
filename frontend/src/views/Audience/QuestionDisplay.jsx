@@ -1,4 +1,9 @@
-export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUsadas }) {
+export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUsadas, tipografia }) {
+  const t = tipografia || {};
+  const colorPregunta = t.colorPregunta ?? '#ffffff';
+  const colorRespuesta = t.colorRespuesta ?? '#ffffff';
+  const fontSizePregunta = t.fontSizePregunta ?? 1.25;
+  const fontSizeRespuesta = t.fontSizeRespuesta ?? 1;
   const opciones = [
     { key: 'A', text: pregunta?.opcionA },
     { key: 'B', text: pregunta?.opcionB },
@@ -38,9 +43,9 @@ export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUs
         }}>
           <h2 style={{
           margin: 0,
-          fontSize: 'clamp(1.25rem, 4vw, 2.5rem)',
+          fontSize: `clamp(${fontSizePregunta}rem, 4vw, ${fontSizePregunta * 2}rem)`,
           lineHeight: 1.3,
-          color: 'var(--white)',
+          color: colorPregunta,
           textAlign: 'center',
           fontWeight: 600
         }}>
@@ -90,9 +95,9 @@ export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUs
               {key}
             </span>
             <span style={{
-              fontSize: 'clamp(0.85rem, 2vw, 1.15rem)',
+              fontSize: `clamp(${fontSizeRespuesta * 0.85}rem, 2vw, ${fontSizeRespuesta * 1.15}rem)`,
               lineHeight: 1.3,
-              color: 'var(--white)',
+              color: colorRespuesta,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               display: '-webkit-box',

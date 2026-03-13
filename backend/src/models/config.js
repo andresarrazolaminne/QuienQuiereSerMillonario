@@ -1,7 +1,22 @@
 import db from '../db.js';
 
+const TIPOGRAFIA_DEFAULT = {
+  fontFamily: 'Segoe UI, system-ui, sans-serif',
+  colorPregunta: '#ffffff',
+  colorRespuesta: '#ffffff',
+  colorTitulo: '#ffd700',
+  colorPuntaje: '#ffd700',
+  colorCorrecto: '#22c55e',
+  colorIncorrecto: '#ef4444',
+  fontSizePregunta: 1.25,
+  fontSizeRespuesta: 1,
+  fontSizeTitulo: 1.1,
+  fontSizePuntaje: 1.5
+};
+
 const DEFAULTS = {
   titulo_app: 'Millonario',
+  tipografia: JSON.stringify(TIPOGRAFIA_DEFAULT),
   fondo_publico: JSON.stringify({ tipo: 'gradiente', color1: '#0a1628', color2: '#1a2d4a', angulo: 180 }),
   fondo_presentador: JSON.stringify({ tipo: 'gradiente', color1: '#0a1628', color2: '#1a2d4a', angulo: 180 }),
   fondo_espera: JSON.stringify({ tipo: 'gradiente', color1: '#0a1628', color2: '#1a2d4a', angulo: 180 })
@@ -21,7 +36,7 @@ function set(clave, valor) {
 
 export function getConfig() {
   const result = {};
-  const jsonKeys = ['fondo_publico', 'fondo_presentador', 'fondo_espera'];
+  const jsonKeys = ['fondo_publico', 'fondo_presentador', 'fondo_espera', 'tipografia'];
   const strKeys = ['titulo_app'];
   for (const k of jsonKeys) {
     const v = get(k);

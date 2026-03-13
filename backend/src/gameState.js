@@ -5,6 +5,7 @@ let gameState = {
   preguntaIndex: 0,
   preguntas: [],
   preguntasUsadas: [],
+  historialRespuestas: [],
   puntajeActual: 0,
   mostrarPuntaje: false,
   ayudasUsadas: {
@@ -45,6 +46,7 @@ export function setPreguntas(preguntas) {
   gameState.preguntaIndex = 0;
   gameState.preguntaActual = gameState.preguntas[0] || null;
   gameState.preguntasUsadas = [];
+  gameState.historialRespuestas = [];
   gameState.puntajeActual = 0;
   gameState.ayudasUsadas = { fiftyFifty: false, llamada: false, publico: false };
   gameState.opcionesEliminadas = [];
@@ -125,11 +127,19 @@ export function marcarRespuesta(opcion) {
   }
   gameState.respuestaMarcada = opcion;
   const correcta = gameState.preguntaActual.correcta;
-  if (opcion === correcta) {
-    const valor = gameState.preguntaActual.valor ?? 100 * (gameState.preguntaActual.nivel ?? 1);
+  const correcto = opcion === correcta;
+  const valor = gameState.preguntaActual.valor ?? 100 * (gameState.preguntaActual.nivel ?? 1);
+  if (correcto) {
     gameState.puntajeActual = (gameState.puntajeActual || 0) + valor;
   }
-  gameState.feedback = opcion === correcta ? 'correcto' : 'incorrecto';
+  gameState.historialRespuestas = [...(gameState.historialRespuestas || []), {
+    index: gameState.preguntaIndex,
+    texto: gameState.preguntaActual.texto,
+    correcto,
+    valor,
+    nivel: gameState.preguntaActual.nivel ?? 1
+  }];
+  gameState.feedback = correcto ? 'correcto' : 'incorrecto';
   gameState.mode = 'feedback';
   return getGameState();
 }
@@ -154,6 +164,7 @@ export function reiniciarJuego() {
     preguntaIndex: 0,
     preguntas: [],
     preguntasUsadas: [],
+    historialRespuestas: [],
     puntajeActual: 0,
     mostrarPuntaje: false,
     ayudasUsadas: { fiftyFifty: false, llamada: false, publico: false },

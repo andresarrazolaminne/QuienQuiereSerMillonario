@@ -1,4 +1,8 @@
-export default function PublicoVotingDisplay({ pregunta, opcionesEliminadas, publicoVotos }) {
+export default function PublicoVotingDisplay({ pregunta, opcionesEliminadas, publicoVotos, tipografia }) {
+  const t = tipografia || {};
+  const colorPregunta = t.colorPregunta ?? '#ffffff';
+  const colorRespuesta = t.colorRespuesta ?? '#ffffff';
+  const colorTitulo = t.colorTitulo ?? '#ffd700';
   const opciones = [
     { key: 'A', text: pregunta?.opcionA },
     { key: 'B', text: pregunta?.opcionB },
@@ -37,7 +41,7 @@ export default function PublicoVotingDisplay({ pregunta, opcionesEliminadas, pub
       }}>
         <div style={{
           fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
-          color: 'var(--gold)',
+          color: colorTitulo,
           fontWeight: 600,
           marginBottom: '0.5rem',
           textTransform: 'uppercase',
@@ -49,7 +53,7 @@ export default function PublicoVotingDisplay({ pregunta, opcionesEliminadas, pub
           margin: 0,
           fontSize: 'clamp(1.25rem, 4vw, 2.5rem)',
           lineHeight: 1.35,
-          color: 'var(--white)',
+          color: colorPregunta,
           fontWeight: 600,
           maxWidth: 900
         }}>
@@ -116,7 +120,7 @@ export default function PublicoVotingDisplay({ pregunta, opcionesEliminadas, pub
                   <span style={{
                     fontSize: 'clamp(0.7rem, 1.4vw, 0.85rem)',
                     lineHeight: 1.25,
-                    color: 'var(--white)',
+                    color: colorRespuesta,
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     display: '-webkit-box',

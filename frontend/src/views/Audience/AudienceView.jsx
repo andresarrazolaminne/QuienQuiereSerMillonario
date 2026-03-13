@@ -3,6 +3,7 @@ import { useSocket } from '../../hooks/useSocket';
 import { pantallasApi } from '../../services/api';
 import { configApi } from '../../services/api';
 import { getBackgroundStyle } from '../../utils/backgroundStyle';
+import { getTypography } from '../../utils/typography';
 import WaitingScreen from './WaitingScreen';
 import QuestionDisplay from './QuestionDisplay';
 import PublicoVotingDisplay from './PublicoVotingDisplay';
@@ -42,6 +43,7 @@ export default function AudienceView({ fullscreen }) {
   const showingQuestion = !gameState?.feedback && gameState?.mode !== 'espera' && !isCierre && gameState?.preguntaActual;
   const inEspera = !isFeedback && !isCierre && isEspera && pantallaActual;
   const fondoConfig = isCierre ? null : (inEspera ? (config?.fondo_espera) : (config?.fondo_publico));
+  const tipografia = getTypography(config);
   const containerStyle = {
     minHeight: '100vh',
     height: '100vh',
@@ -52,17 +54,22 @@ export default function AudienceView({ fullscreen }) {
     padding: fullscreen ? '1rem' : '2rem',
     background: isCierre ? 'linear-gradient(135deg, #0a1628 0%, #1a2d4a 50%, #0d2137 100%)' : getBackgroundStyle(fondoConfig),
     overflow: showingQuestion ? 'auto' : 'hidden',
-    position: 'relative'
+    position: 'relative',
+    fontFamily: tipografia.fontFamily
   };
 
   return (
     <div style={containerStyle}>
       {gameState?.mostrarPuntaje && !isCierre && (
-        <ScoreDisplay puntaje={gameState?.puntajeActual ?? 0} />
+        <ScoreDisplay puntaje={gameState?.puntajeActual ?? 0} tipografia={tipografia} />
       )}
 
       {isCierre && (
-        <ScoreDisplayFull puntaje={gameState?.puntajeActual ?? 0} />
+        <ScoreDisplayFull
+          puntaje={gameState?.puntajeActual ?? 0}
+          historial={gameState?.historialRespuestas ?? []}
+          tipografia={tipografia}
+        />
       )}
 
       {!connected && (
@@ -80,7 +87,7 @@ export default function AudienceView({ fullscreen }) {
       )}
 
       {isFeedback && (
-        <FeedbackMessage feedback={gameState.feedback} pregunta={gameState.preguntaActual} />
+        <FeedbackMessage feedback={gameState.feedback} pregunta={gameState.preguntaActual} tipografia={tipografia} />
       )}
 
       {!isFeedback && !isCierre && inEspera && pantallaActual && (
@@ -101,6 +108,7 @@ export default function AudienceView({ fullscreen }) {
               pregunta={gameState.preguntaActual}
               opcionesEliminadas={gameState.opcionesEliminadas || []}
               publicoVotos={gameState.publicoVotos}
+              tipografia={tipografia}
             />
           ) : (
             <>
@@ -108,6 +116,7 @@ export default function AudienceView({ fullscreen }) {
                 pregunta={gameState.preguntaActual}
                 opcionesEliminadas={gameState.opcionesEliminadas || []}
                 ayudasUsadas={gameState.ayudasUsadas || {}}
+                tipografia={tipografia}
               />
               <HelpDisplay
                 ayudasUsadas={gameState.ayudasUsadas || {}}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { configApi } from '../../services/api';
 import { getBackgroundStyle } from '../../utils/backgroundStyle';
+import { TIPOGRAFIA_DEFAULTS } from '../../utils/typography';
 
 const VISTAS = [
   { key: 'fondo_publico', label: 'Vista público' },
@@ -183,8 +184,12 @@ export default function AdminConfig() {
     setSaving(true);
     setSaved(false);
     try {
-      await configApi.update(local);
-      setConfig(local);
+      const toSave = { ...local };
+      if (toSave.tipografia && typeof toSave.tipografia === 'object') {
+        toSave.tipografia = { ...TIPOGRAFIA_DEFAULTS, ...toSave.tipografia };
+      }
+      const saved = await configApi.update(toSave);
+      setConfig(saved || toSave);
       setSaved(true);
     } catch (err) {
       console.error(err);
@@ -215,6 +220,181 @@ export default function AdminConfig() {
           placeholder="Millonario"
           style={{ width: '100%', maxWidth: 300 }}
         />
+      </div>
+
+      <div style={{
+        background: 'var(--blue-mid)',
+        padding: '1.25rem',
+        borderRadius: 8,
+        marginBottom: '1.5rem',
+        border: '1px solid var(--blue-light)'
+      }}>
+        <h3 style={{ marginBottom: '0.75rem', fontSize: '1rem' }}>Tipografía y colores</h3>
+        <p style={{ marginBottom: '1rem', color: 'var(--gray)', fontSize: '0.9rem' }}>
+          Personaliza fuentes, colores y tamaños de texto en la vista del público.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Fuente</label>
+            <input
+              type="text"
+              value={local.tipografia?.fontFamily ?? TIPOGRAFIA_DEFAULTS.fontFamily}
+              onChange={e => handleChange('tipografia', { ...local.tipografia, fontFamily: e.target.value })}
+              placeholder="Segoe UI, sans-serif"
+              style={{ width: '100%' }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Color pregunta</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                type="color"
+                value={local.tipografia?.colorPregunta ?? TIPOGRAFIA_DEFAULTS.colorPregunta}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorPregunta: e.target.value })}
+                style={{ width: 40, height: 32, padding: 2, cursor: 'pointer' }}
+              />
+              <input
+                type="text"
+                value={local.tipografia?.colorPregunta ?? TIPOGRAFIA_DEFAULTS.colorPregunta}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorPregunta: e.target.value })}
+                style={{ flex: 1, maxWidth: 100 }}
+              />
+            </div>
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Color respuestas</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                type="color"
+                value={local.tipografia?.colorRespuesta ?? TIPOGRAFIA_DEFAULTS.colorRespuesta}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorRespuesta: e.target.value })}
+                style={{ width: 40, height: 32, padding: 2, cursor: 'pointer' }}
+              />
+              <input
+                type="text"
+                value={local.tipografia?.colorRespuesta ?? TIPOGRAFIA_DEFAULTS.colorRespuesta}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorRespuesta: e.target.value })}
+                style={{ flex: 1, maxWidth: 100 }}
+              />
+            </div>
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Color títulos</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                type="color"
+                value={local.tipografia?.colorTitulo ?? TIPOGRAFIA_DEFAULTS.colorTitulo}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorTitulo: e.target.value })}
+                style={{ width: 40, height: 32, padding: 2, cursor: 'pointer' }}
+              />
+              <input
+                type="text"
+                value={local.tipografia?.colorTitulo ?? TIPOGRAFIA_DEFAULTS.colorTitulo}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorTitulo: e.target.value })}
+                style={{ flex: 1, maxWidth: 100 }}
+              />
+            </div>
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Color puntaje</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                type="color"
+                value={local.tipografia?.colorPuntaje ?? TIPOGRAFIA_DEFAULTS.colorPuntaje}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorPuntaje: e.target.value })}
+                style={{ width: 40, height: 32, padding: 2, cursor: 'pointer' }}
+              />
+              <input
+                type="text"
+                value={local.tipografia?.colorPuntaje ?? TIPOGRAFIA_DEFAULTS.colorPuntaje}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorPuntaje: e.target.value })}
+                style={{ flex: 1, maxWidth: 100 }}
+              />
+            </div>
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Tamaño pregunta (rem)</label>
+            <input
+              type="number"
+              min={0.5}
+              max={3}
+              step={0.1}
+              value={local.tipografia?.fontSizePregunta ?? TIPOGRAFIA_DEFAULTS.fontSizePregunta}
+              onChange={e => handleChange('tipografia', { ...local.tipografia, fontSizePregunta: parseFloat(e.target.value) || 1.25 })}
+              style={{ width: 80 }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Tamaño respuestas (rem)</label>
+            <input
+              type="number"
+              min={0.5}
+              max={2}
+              step={0.1}
+              value={local.tipografia?.fontSizeRespuesta ?? TIPOGRAFIA_DEFAULTS.fontSizeRespuesta}
+              onChange={e => handleChange('tipografia', { ...local.tipografia, fontSizeRespuesta: parseFloat(e.target.value) || 1 })}
+              style={{ width: 80 }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Tamaño puntaje (rem)</label>
+            <input
+              type="number"
+              min={0.5}
+              max={3}
+              step={0.1}
+              value={local.tipografia?.fontSizePuntaje ?? TIPOGRAFIA_DEFAULTS.fontSizePuntaje}
+              onChange={e => handleChange('tipografia', { ...local.tipografia, fontSizePuntaje: parseFloat(e.target.value) || 1.5 })}
+              style={{ width: 80 }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Tamaño títulos (rem)</label>
+            <input
+              type="number"
+              min={0.5}
+              max={2}
+              step={0.1}
+              value={local.tipografia?.fontSizeTitulo ?? TIPOGRAFIA_DEFAULTS.fontSizeTitulo}
+              onChange={e => handleChange('tipografia', { ...local.tipografia, fontSizeTitulo: parseFloat(e.target.value) || 1.1 })}
+              style={{ width: 80 }}
+            />
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Color correcto</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                type="color"
+                value={local.tipografia?.colorCorrecto ?? TIPOGRAFIA_DEFAULTS.colorCorrecto}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorCorrecto: e.target.value })}
+                style={{ width: 40, height: 32, padding: 2, cursor: 'pointer' }}
+              />
+              <input
+                type="text"
+                value={local.tipografia?.colorCorrecto ?? TIPOGRAFIA_DEFAULTS.colorCorrecto}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorCorrecto: e.target.value })}
+                style={{ flex: 1, maxWidth: 100 }}
+              />
+            </div>
+          </div>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>Color incorrecto</label>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                type="color"
+                value={local.tipografia?.colorIncorrecto ?? TIPOGRAFIA_DEFAULTS.colorIncorrecto}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorIncorrecto: e.target.value })}
+                style={{ width: 40, height: 32, padding: 2, cursor: 'pointer' }}
+              />
+              <input
+                type="text"
+                value={local.tipografia?.colorIncorrecto ?? TIPOGRAFIA_DEFAULTS.colorIncorrecto}
+                onChange={e => handleChange('tipografia', { ...local.tipografia, colorIncorrecto: e.target.value })}
+                style={{ flex: 1, maxWidth: 100 }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <h3 style={{ marginBottom: '0.75rem' }}>Fondos por vista</h3>

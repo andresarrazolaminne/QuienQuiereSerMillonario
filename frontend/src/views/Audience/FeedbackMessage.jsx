@@ -1,4 +1,8 @@
-export default function FeedbackMessage({ feedback, pregunta }) {
+export default function FeedbackMessage({ feedback, pregunta, tipografia }) {
+  const t = tipografia || {};
+  const colorCorrecto = t.colorCorrecto ?? '#22c55e';
+  const colorIncorrecto = t.colorIncorrecto ?? '#ef4444';
+
   const isCorrect = feedback === 'correcto';
   const correcta = pregunta?.correcta ? String(pregunta.correcta).toUpperCase().charAt(0) : null;
   const textoCorrecta = correcta && pregunta ? pregunta['opcion' + correcta] : null;
@@ -12,7 +16,7 @@ export default function FeedbackMessage({ feedback, pregunta }) {
       alignItems: 'center',
       justifyContent: 'center',
       gap: '1rem',
-      background: isCorrect ? 'rgba(34, 197, 94, 0.95)' : 'rgba(239, 68, 68, 0.95)',
+      background: isCorrect ? `${colorCorrecto}f2` : `${colorIncorrecto}f2`,
       zIndex: 50,
       animation: 'fadeIn 0.4s ease'
     }}>
