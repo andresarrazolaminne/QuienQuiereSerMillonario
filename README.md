@@ -1,69 +1,63 @@
 # Quién Quiere Ser Millonario - Versión Online
 
-Juego online tipo "Who Wants to Be a Millionaire" con sincronización en tiempo real.
+Juego online tipo "Who Wants to Be a Millionaire" con sincronización en tiempo real vía WebSocket.
+
+**Stack:** React + Vite (frontend) · Express + Socket.io (backend) · SQLite (datos)
+
+---
 
 ## Requisitos
 
 - Node.js 18+
 
-## Instalación
+## Desarrollo local
 
 ```bash
-# Backend
-cd backend
-npm install
+# Instalar dependencias
+cd backend && npm install
+cd ../frontend && npm install
 
-# Frontend
-cd frontend
-npm install
+# Ejecutar (dos terminales)
+cd backend && npm run dev    # puerto 3001
+cd frontend && npm run dev   # puerto 5173
 ```
 
-## Ejecución
-
-1. Iniciar el backend:
-```bash
-cd backend
-npm run dev
-```
-
-2. Iniciar el frontend:
-```bash
-cd frontend
-npm run dev
-```
-
-3. Abrir http://localhost:5173
+Abrir **http://localhost:5173**
 
 ## Vistas
 
-- **Público** (`/publico`): Pantalla para el público. Muestra pantallas de espera, preguntas y feedback.
-- **Pantalla** (`/pantalla`): Vista de proyección sin menú lateral.
-- **Presentador** (`/presentador`): Panel de control del juego.
-- **Admin** (`/admin`): Gestión de pantallas de espera, preguntas e historial.
+| Ruta | Descripción |
+|------|-------------|
+| `/publico` | Pantalla para el público (preguntas, feedback, pantallas de espera) |
+| `/pantalla` | Proyección fullscreen sin menú |
+| `/votacion` | Votación del público (con menú) |
+| `/votar` | Votación en pantalla limpia |
+| `/presentador` | Panel de control del juego |
+| `/admin` | Gestión de preguntas, pantallas de espera e historial |
 
 ## Configuración
 
-- **Clave de admin**: Por defecto `admin123`. Para cambiarla, define la variable de entorno `ADMIN_KEY` al iniciar el backend.
+- **Clave admin:** Por defecto `admin123`. Variable de entorno `ADMIN_KEY`.
+- **Puerto backend:** `PORT` (por defecto 3001).
 
 ## Uso
 
-1. En **Admin**: Introducir la clave para acceder al panel.
-2. En **Admin > Pantallas de espera**: Crear pantallas con imágenes o videos.
-2. En **Admin > Preguntas**: Crear preguntas o importar CSV (formato: texto,opcionA,opcionB,opcionC,opcionD,correcta,nivel).
-3. En **Presentador**: Cargar preguntas, seleccionar pantalla de espera, controlar el juego.
-4. Abrir **Público** o **Pantalla** en un proyector o segunda pantalla.
+1. **Admin** → Introducir clave → Crear pantallas de espera y preguntas (o importar CSV).
+2. **Presentador** → Cargar preguntas → Seleccionar pantalla de espera → Controlar el juego.
+3. **Público / Pantalla** → Abrir en proyector o segunda pantalla.
+4. **Pantalla de cierre** → Botón en Presentador para mostrar puntaje final fullscreen.
+
+Formato CSV preguntas: `texto,opcionA,opcionB,opcionC,opcionD,correcta,nivel,valor`
 
 ## Ayudas
 
-- **50:50**: Elimina 2 opciones incorrectas.
-- **Llamada**: Simula llamada a un amigo.
-- **Público**: Muestra votación simulada del público.
+- **50:50** — Elimina 2 opciones incorrectas.
+- **Llamada** — Simula llamada a un amigo.
+- **Público** — Votación simulada del público.
 
-## Despliegue en servidor
+## Despliegue en producción
 
-Ver **[DEPLOY.md](DEPLOY.md)** para la guía completa de despliegue en producción (Lightsail/Ubuntu).
-
-Resumen rápido:
+Ver **[DEPLOY.md](DEPLOY.md)** para la guía completa (Lightsail/Ubuntu).
 
 ```bash
 chmod +x scripts/*.sh
@@ -71,4 +65,4 @@ chmod +x scripts/*.sh
 sudo ./scripts/install-service.sh
 ```
 
-Un solo proceso Node por puerto. Si 3001 está ocupado, edita `backend/.env` y cambia `PORT` antes de instalar el servicio.
+Un solo proceso Node sirve API + frontend. Si el puerto 3001 está ocupado, edita `backend/.env` antes de instalar el servicio.
