@@ -58,3 +58,20 @@ npm run dev
 - **50:50**: Elimina 2 opciones incorrectas.
 - **Llamada**: Simula llamada a un amigo.
 - **Público**: Muestra votación simulada del público.
+
+## Despliegue en servidor
+
+Después de clonar el repositorio en el servidor:
+
+```bash
+# Dar permisos de ejecución a los scripts
+chmod +x scripts/*.sh
+
+# Ejecutar despliegue (instala deps, construye frontend, crea .env)
+./scripts/deploy.sh
+
+# Opcional: instalar servicio systemd para que el backend arranque automáticamente
+sudo ./scripts/install-service.sh
+```
+
+Configura Nginx usando `scripts/nginx.conf.example` como referencia. Ajusta `root` y `server_name` según tu instalación.

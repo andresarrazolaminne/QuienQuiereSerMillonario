@@ -1,0 +1,41 @@
+# Ejemplo de configuración Nginx para Millonario
+# Copiar a /etc/nginx/sites-available/millonario
+# y enlazar: sudo ln -s /etc/nginx/sites-available/millonario /etc/nginx/sites-enabled/
+# Ajustar server_name y rutas según tu servidor
+
+server {
+    listen 80;
+    server_name millonario.tudominio.com;
+
+    # Frontend estático (build de Vite)
+    root /var/www/millonario/frontend/dist;
+    index index.html;
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # API
+    location /api {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Archivos subidos
+    location /uploads {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_set_header Host $host;
+    }
+
+    # WebSocket (Socket.io)
+    location /socket.io {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+}
