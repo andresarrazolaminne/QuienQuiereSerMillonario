@@ -39,6 +39,16 @@ app.use('/api/rondas', rondasRoutes);
 
 setupSocket(io);
 
+// En producción, servir el frontend desde Node (como tus otros proyectos)
+const isProd = process.env.NODE_ENV === 'production';
+const frontendPath = path.join(__dirname, '..', '..', 'frontend', 'dist');
+if (isProd && fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
 const PORT = process.env.PORT || 3001;
 httpServer.listen(PORT, () => {
   console.log(`Servidor en http://localhost:${PORT}`);

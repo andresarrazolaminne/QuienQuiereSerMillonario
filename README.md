@@ -61,17 +61,14 @@ npm run dev
 
 ## Despliegue en servidor
 
-Después de clonar el repositorio en el servidor:
+Ver **[DEPLOY.md](DEPLOY.md)** para la guía completa de despliegue en producción (Lightsail/Ubuntu).
+
+Resumen rápido:
 
 ```bash
-# Dar permisos de ejecución a los scripts
 chmod +x scripts/*.sh
-
-# Ejecutar despliegue (instala deps, construye frontend, crea .env)
 ./scripts/deploy.sh
-
-# Opcional: instalar servicio systemd para que el backend arranque automáticamente
 sudo ./scripts/install-service.sh
 ```
 
-Configura Nginx usando `scripts/nginx.conf.example` como referencia. Ajusta `root` y `server_name` según tu instalación.
+Un solo proceso Node por puerto. Si 3001 está ocupado, edita `backend/.env` y cambia `PORT` antes de instalar el servicio.

@@ -58,25 +58,23 @@ ADMIN_KEY=admin123
 NODE_ENV=production
 ENVEOF
     log_warn "Archivo .env creado. ¡Cambia ADMIN_KEY en producción!"
+    log_warn "Si el puerto 3001 está ocupado, edita PORT en $ENV_FILE"
 else
     log_info "Archivo .env ya existe"
 fi
 
-# 6. Copiar build del frontend a ubicación servible
-# Por defecto: frontend/dist queda en su sitio. Nginx debe apuntar a frontend/dist o
-# puedes moverlo. Aquí dejamos dist/ en su lugar.
-log_info "Build del frontend en: $FRONTEND_DIR/dist"
-
-# 7. Resumen
+# 6. Resumen
 echo ""
 log_info "=== Despliegue completado ==="
 echo ""
+echo "  La app se sirve íntegramente desde Node (API + frontend estático)."
+echo ""
 echo "  Backend:  $BACKEND_DIR"
-echo "  Frontend: $FRONTEND_DIR/dist"
+echo "  Frontend: $FRONTEND_DIR/dist (servido por el backend)"
 echo "  Puerto:   $(grep -E '^PORT=' "$ENV_FILE" 2>/dev/null | cut -d= -f2 || echo '3001')"
 echo ""
-echo "  Para iniciar el backend manualmente:"
-echo "    cd $BACKEND_DIR && node src/server.js"
+echo "  Para iniciar (NODE_ENV=production para servir el frontend):"
+echo "    cd $BACKEND_DIR && NODE_ENV=production node src/server.js"
 echo ""
 echo "  Para usar con systemd, ejecuta:"
 echo "    sudo ./scripts/install-service.sh"

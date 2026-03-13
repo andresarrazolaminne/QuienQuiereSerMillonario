@@ -12,7 +12,8 @@ backend/data/*.db
 backend/uploads/*
 !backend/uploads/.gitkeep
 
-# Environment
+# Environment (no subir secretos)
+backend/.env
 .env
 .env.local
 .env.*.local
