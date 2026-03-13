@@ -123,11 +123,11 @@ export default function AdminWaitingScreens() {
             </div>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button type="submit" style={{ background: 'var(--gold)', color: 'var(--blue-dark)', fontWeight: 600 }}>
+            <button type="submit" className="btn-game btn-gold">
               {editing ? 'Guardar' : 'Crear'}
             </button>
             {editing && (
-              <button type="button" onClick={() => { setEditing(null); setForm({ nombre: '', tipo: 'imagen', url: '', orden: 0, duracion: 0 }); setFile(null); }} style={{ background: 'var(--gray)' }}>
+              <button type="button" onClick={() => { setEditing(null); setForm({ nombre: '', tipo: 'imagen', url: '', orden: 0, duracion: 0 }); setFile(null); }} className="btn-game btn-gray">
                 Cancelar
               </button>
             )}
@@ -153,8 +153,8 @@ export default function AdminWaitingScreens() {
               <strong>{p.nombre}</strong>
               <span style={{ marginLeft: '0.5rem', color: 'var(--gray)', fontSize: '0.9rem' }}>{p.tipo}</span>
             </div>
-            <button onClick={() => handleEdit(p)} style={{ background: 'var(--blue-light)' }}>Editar</button>
-            <button onClick={() => handleDelete(p.id)} style={{ background: 'var(--red)' }}>Eliminar</button>
+            <button type="button" onClick={() => handleEdit(p)} className="btn-game btn-blue">Editar</button>
+            <button type="button" onClick={() => handleDelete(p.id)} className="btn-game btn-red">Eliminar</button>
           </div>
         ))}
         {pantallas.length === 0 && (

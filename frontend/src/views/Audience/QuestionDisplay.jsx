@@ -18,14 +18,25 @@ export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUs
       boxSizing: 'border-box'
     }}>
       <div style={{
-        flex: '2 1 0',
-        minHeight: '66vh',
+        flex: 1,
+        minHeight: 0,
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1rem 0'
+        flexDirection: 'column',
+        background: 'rgba(26, 45, 74, 0.6)',
+        borderRadius: 16,
+        border: '2px solid rgba(255, 215, 0, 0.25)',
+        padding: 'clamp(1.5rem, 4vw, 2.5rem)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,215,0,0.1)'
       }}>
-        <h2 style={{
+        <div style={{
+          flex: '2 1 0',
+          minHeight: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1rem 0'
+        }}>
+          <h2 style={{
           margin: 0,
           fontSize: 'clamp(1.25rem, 4vw, 2.5rem)',
           lineHeight: 1.3,
@@ -33,19 +44,19 @@ export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUs
           textAlign: 'center',
           fontWeight: 600
         }}>
-          {pregunta?.texto}
-        </h2>
-      </div>
+            {pregunta?.texto}
+          </h2>
+        </div>
 
-      <div style={{
-        flex: '1 1 0',
-        display: 'grid',
+        <div style={{
+          flex: '1 1 0',
+          display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: 'clamp(0.5rem, 2vw, 1rem)',
         padding: '0.5rem 0',
         minHeight: 0
-      }}>
-        {opciones.map(({ key, text, eliminada }, i) => (
+        }}>
+          {opciones.map(({ key, text, eliminada }, i) => (
           <div
             key={key}
             style={{
@@ -91,19 +102,20 @@ export default function QuestionDisplay({ pregunta, opcionesEliminadas, ayudasUs
               {text}
             </span>
           </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div style={{
-        marginTop: '0.75rem',
+        <div style={{
+          marginTop: '0.75rem',
         display: 'flex',
         gap: '0.5rem',
         flexWrap: 'wrap',
         justifyContent: 'center'
       }}>
-        {!ayudasUsadas?.fiftyFifty && <span style={{ padding: '0.25rem 0.5rem', background: 'var(--blue-light)', borderRadius: 4, fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)' }}>50:50</span>}
-        {!ayudasUsadas?.llamada && <span style={{ padding: '0.25rem 0.5rem', background: 'var(--blue-light)', borderRadius: 4, fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)' }}>Llamada</span>}
-        {!ayudasUsadas?.publico && <span style={{ padding: '0.25rem 0.5rem', background: 'var(--blue-light)', borderRadius: 4, fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)' }}>Público</span>}
+          {!ayudasUsadas?.fiftyFifty && <span style={{ padding: '0.25rem 0.5rem', background: 'var(--blue-light)', borderRadius: 4, fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)' }}>50:50</span>}
+          {!ayudasUsadas?.llamada && <span style={{ padding: '0.25rem 0.5rem', background: 'var(--blue-light)', borderRadius: 4, fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)' }}>Llamada</span>}
+          {!ayudasUsadas?.publico && <span style={{ padding: '0.25rem 0.5rem', background: 'var(--blue-light)', borderRadius: 4, fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)' }}>Público</span>}
+        </div>
       </div>
     </div>
   );

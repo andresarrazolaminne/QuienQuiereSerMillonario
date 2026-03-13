@@ -1,6 +1,7 @@
 import db from '../db.js';
 
 const DEFAULTS = {
+  titulo_app: 'Millonario',
   fondo_publico: JSON.stringify({ tipo: 'gradiente', color1: '#0a1628', color2: '#1a2d4a', angulo: 180 }),
   fondo_presentador: JSON.stringify({ tipo: 'gradiente', color1: '#0a1628', color2: '#1a2d4a', angulo: 180 }),
   fondo_espera: JSON.stringify({ tipo: 'gradiente', color1: '#0a1628', color2: '#1a2d4a', angulo: 180 })
@@ -19,11 +20,16 @@ function set(clave, valor) {
 }
 
 export function getConfig() {
-  const keys = ['fondo_publico', 'fondo_presentador', 'fondo_espera'];
   const result = {};
-  for (const k of keys) {
+  const jsonKeys = ['fondo_publico', 'fondo_presentador', 'fondo_espera'];
+  const strKeys = ['titulo_app'];
+  for (const k of jsonKeys) {
     const v = get(k);
     result[k] = v ? JSON.parse(v) : (DEFAULTS[k] ? JSON.parse(DEFAULTS[k]) : null);
+  }
+  for (const k of strKeys) {
+    const v = get(k);
+    result[k] = v ?? DEFAULTS[k] ?? '';
   }
   return result;
 }

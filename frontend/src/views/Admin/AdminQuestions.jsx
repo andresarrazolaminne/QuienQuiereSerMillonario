@@ -114,7 +114,7 @@ export default function AdminQuestions() {
           onChange={handleFileImport}
           style={{ display: 'none' }}
         />
-        <button onClick={() => fileRef.current?.click()} style={{ background: 'var(--blue-light)', marginBottom: '0.5rem' }}>
+        <button type="button" onClick={() => fileRef.current?.click()} className="btn-game btn-blue" style={{ marginBottom: '0.5rem' }}>
           Seleccionar archivo CSV
         </button>
         <textarea
@@ -124,7 +124,7 @@ export default function AdminQuestions() {
           rows={4}
           style={{ width: '100%', maxWidth: 600, display: 'block', marginBottom: '0.5rem' }}
         />
-        <button onClick={handleImportCsv} disabled={!importText.trim()} style={{ background: 'var(--gold)', color: 'var(--blue-dark)' }}>
+        <button type="button" onClick={handleImportCsv} disabled={!importText.trim()} className="btn-game btn-gold">
           Importar
         </button>
       </section>
@@ -224,11 +224,11 @@ export default function AdminQuestions() {
             </div>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button type="submit" style={{ background: 'var(--gold)', color: 'var(--blue-dark)', fontWeight: 600 }}>
+            <button type="submit" className="btn-game btn-gold">
               {editing ? 'Guardar' : 'Crear'}
             </button>
             {editing && (
-              <button type="button" onClick={() => { setEditing(null); setForm({ texto: '', opcionA: '', opcionB: '', opcionC: '', opcionD: '', correcta: 'A', nivel: 1, valor: 100 }); }} style={{ background: 'var(--gray)' }}>
+              <button type="button" onClick={() => { setEditing(null); setForm({ texto: '', opcionA: '', opcionB: '', opcionC: '', opcionD: '', correcta: 'A', nivel: 1, valor: 100 }); }} className="btn-game btn-gray">
                 Cancelar
               </button>
             )}
@@ -271,9 +271,9 @@ export default function AdminQuestions() {
               <span style={{ color: 'var(--gold)' }}>Correcta: {p.correcta}</span>
               {' | Nivel: '}{p.nivel}{' | Valor: '}{p.valor ?? 100} pts
             </div>
-            <div style={{ marginTop: '0.5rem' }}>
-              <button onClick={() => handleEdit(p)} style={{ background: 'var(--blue-light)', marginRight: '0.5rem' }}>Editar</button>
-              <button onClick={() => handleDelete(p.id)} style={{ background: 'var(--red)' }}>Eliminar</button>
+            <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+              <button type="button" onClick={() => handleEdit(p)} className="btn-game btn-blue">Editar</button>
+              <button type="button" onClick={() => handleDelete(p.id)} className="btn-game btn-red">Eliminar</button>
             </div>
           </div>
         ))}

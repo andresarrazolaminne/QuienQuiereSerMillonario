@@ -64,10 +64,11 @@ router.post('/upload-background', (req, res, next) => {
 
 router.put('/', (req, res) => {
   try {
-    const { fondo_publico, fondo_presentador, fondo_espera } = req.body;
+    const { fondo_publico, fondo_presentador, fondo_espera, titulo_app } = req.body;
     if (fondo_publico !== undefined) configModel.setConfig('fondo_publico', fondo_publico);
     if (fondo_presentador !== undefined) configModel.setConfig('fondo_presentador', fondo_presentador);
     if (fondo_espera !== undefined) configModel.setConfig('fondo_espera', fondo_espera);
+    if (titulo_app !== undefined) configModel.setConfig('titulo_app', String(titulo_app));
     const config = configModel.getConfig();
     res.json(config);
   } catch (err) {

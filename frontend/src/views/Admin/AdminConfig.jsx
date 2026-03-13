@@ -195,8 +195,30 @@ export default function AdminConfig() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: '1rem' }}>Configuración de fondos</h2>
-      <p style={{ marginBottom: '1.5rem', color: 'var(--gray)', fontSize: '0.9rem' }}>
+      <h2 style={{ marginBottom: '1rem' }}>Configuración</h2>
+
+      <div style={{
+        background: 'var(--blue-mid)',
+        padding: '1.25rem',
+        borderRadius: 8,
+        marginBottom: '1.5rem',
+        border: '1px solid var(--blue-light)'
+      }}>
+        <h3 style={{ marginBottom: '0.75rem', fontSize: '1rem' }}>Título de la aplicación</h3>
+        <p style={{ marginBottom: '0.5rem', color: 'var(--gray)', fontSize: '0.9rem' }}>
+          Aparece en el menú lateral y en el encabezado.
+        </p>
+        <input
+          type="text"
+          value={local.titulo_app ?? 'Millonario'}
+          onChange={e => handleChange('titulo_app', e.target.value)}
+          placeholder="Millonario"
+          style={{ width: '100%', maxWidth: 300 }}
+        />
+      </div>
+
+      <h3 style={{ marginBottom: '0.75rem' }}>Fondos por vista</h3>
+      <p style={{ marginBottom: '1rem', color: 'var(--gray)', fontSize: '0.9rem' }}>
         Personaliza el fondo de cada vista. Los cambios se aplican al guardar.
       </p>
 
@@ -210,14 +232,11 @@ export default function AdminConfig() {
       ))}
 
       <button
+        type="button"
         onClick={handleSave}
         disabled={saving}
-        style={{
-          background: 'var(--gold)',
-          color: 'var(--blue-dark)',
-          padding: '0.75rem 1.5rem',
-          fontWeight: 600
-        }}
+        className="btn-game btn-gold"
+        style={{ padding: '0.75rem 1.5rem' }}
       >
         {saving ? 'Guardando...' : 'Guardar configuración'}
       </button>

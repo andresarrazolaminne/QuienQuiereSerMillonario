@@ -54,6 +54,42 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Botones estilo juego - admin y paneles */
+.btn-game {
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.btn-game:hover:not(:disabled) {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+  transform: translateY(-1px);
+}
+.btn-game:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-gold {
+  background: linear-gradient(180deg, #ffd700 0%, #daa520 100%);
+  color: var(--blue-dark);
+}
+.btn-blue {
+  background: linear-gradient(180deg, #2d4a6f 0%, #1a2d4a 100%);
+  color: var(--white);
+}
+.btn-red {
+  background: linear-gradient(180deg, #c53030 0%, #9b2c2c 100%);
+  color: var(--white);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+.btn-gray {
+  background: linear-gradient(180deg, #4b5563 0%, #374151 100%);
+  color: var(--white);
+  border-color: rgba(107, 114, 128, 0.5);
+}
+
 input, select, textarea {
   font-family: inherit;
   padding: 0.5rem;
